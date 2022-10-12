@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  闭包是什么？
+  1.《犀牛书》：函数变量可以保存在函数作用域内
+
+  2.《高级程序设计》（红宝书）：闭包是有权访问另一个函数作用域中的变量的函数（函数未导出）
+
+  3.《你不知道的javaScript》：当函数可以记住并访问所在的词法作用域，就产生了闭包，
+  即使函数在当前词法作用域外执行(函数导出)
+
+  4.MDN：一个函数和对其周围状态（词法环境）的引用捆绑在一起（或者说函数被引用包围），这样的组合就是闭包
+
+  5.当函数的执行，导致函数被定义，并抛出（不同书定义不一样）;
+
+
+
+  <script>
+    // 犀牛书，只要是函数就是闭包
+    function foo() {
+      var n = 0 // 函数变量
+    }
+
+    // 红宝书
+    function foo1() {
+      var n = 0
+      // 认为bar是闭包
+      function bar() {
+        console.log(n);
+      }
+      bar()
+    }
+    foo1()
+    // 你不知道的javaScript
+    function foo2() {
+      var n = 0
+      // 认为bar是闭包
+      return function bar() {
+        console.log(n);
+      }
+    }
+    foo2()()
+    // 闭包和函数的定义有关
+    // this 和函数的执行方式有关
+    // function foo3(fn){
+    //   var t = 0
+    //   fn() // 不是闭包
+    // }
+    // function test() {
+    //   console.log(t);
+    // }
+    // foo3(test)
+
+    // 闭包的几种形式, 函数的执行导致函数被定义
+    // 1.函数的返回值是函数
+    // function foo() {
+    //   var n = 0
+    //   return function(){}
+    // }
+
+    // 2.返回的变量是函数
+    // function foo() {
+    //   var n = function() {}
+    //   return n
+    // }
+    // foo()()
+
+    // 3.全局变量定义的闭包
+    // var outter;
+    // function foo() {
+    //   var a = 10
+    //   outter = function () {
+    //     console.log(a);
+    //   }
+    // }
+    // foo()
+    // outter()
+
+    // 4.函数的参数的方式
+    // var inner = function(fn) {
+    //   console.log(fn());
+    // }
+    // function foo() {
+    //   var b = 'local'
+    // 函数定义
+    //   var n = function() {
+    //     return b
+    //   }
+    //   inner(n)
+    // }
+    // foo()
+
+    // 5.循环赋值
+    // function foo() {
+    //   var arr = []
+    //   for (var i = 0; i < 10; i++) {
+    //     arr[i] = (function (j) {
+    //       return function() {
+    //         console.log(j);
+    //       }
+    //     })(i)
+    //   }
+    //   return arr
+    // }
+    // var bar = foo()
+    // bar.forEach(item => {
+    //   item()
+    // })
+
+      // 6.累加器/迭代器
+      // var add = (function() {
+      //   var count = 0
+      //   return function() {
+      //     return ++count
+      //   }
+      // })()
+      // console.log(add());
+      // console.log(add());
+
+      // 7.函数柯里化
+      // function add(x) {
+      //   return function(y) {
+      //     return function(z) {
+      //       return x + y + z
+      //     }
+      //   }
+      // }
+      // var res = add(1)(2)(3)
+      // console.log(res);
+
+  </script>
+</body>
+
+</html>
