@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  迭代器
+  <hr>
+  <script>
+    // 迭代器---->统一的方法来进行所有数据类型的遍历
+    // Array, Map, Set, String, TypeArray, Arguments, NodeList
+    // Symbol(Symbol.iterator)
+    var arr = [1, 2, 3]
+    var str = '123'
+    var obj = {
+      a: 1,
+      b: 2
+    }
+    console.log(arr);
+
+    // console.log(str.__proto__);
+    console.log(Object.getPrototypeOf(str)); // es6获取原型
+    // 对象没有 Symbol(Symbol.iterator) 方法
+    console.log(obj);
+
+    var iter = arr[Symbol.iterator]() // 迭代器对象，具备next() 方法
+    console.log('iter------>', iter.next()); // iter------> {value: 1, done: false}
+    console.log('iter------>', iter.next()); // iter------> {value: 2, done: false}
+    console.log('iter------>', iter.next()); // iter------> {value: 3, done: false}
+    console.log('iter------>', iter.next()); // iter------> {value: undefined, done: true}
+
+    // 实现一个迭代器
+    function makeIterator(arr) {
+      var index = 0
+      return {
+        next() {
+          if (index < arr.length) {
+            return {
+              value: arr[index++],
+              done: false
+            }
+          } else {
+            return {
+              value: undefined,
+              done: true
+            }
+          }
+
+        }
+      }
+    }
+    var myIter = makeIterator(arr)
+    console.log('myIter------->', myIter.next());
+    console.log('myIter------->', myIter.next());
+    console.log('myIter------->', myIter.next());
+    console.log('myIter------->', myIter.next());
+
+
+    for (let i of arr) {
+      console.log(i);
+    }
+    for (let i of str) {
+      console.log(i);
+    }
+    // Uncaught TypeError: obj is not iterable 
+    // for (let i of obj) {
+    //   console.log(i);
+    // }
+  </script>
+</body>
+
+</html>

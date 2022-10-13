@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    var obj = {
+      a: 1,
+      b: 2,
+      c: 3,
+      d: 4,
+      [Symbol.iterator]() {
+        var index = 0
+        let map = new Map([['a', 1], ['b', 2], ['c', 3]]) // 类似于对象的数据结构，实现对象和值的一一对应关系
+        // map.set('a', 1)
+        // map.set('b', 2)
+        // map.set('c', 3)
+        console.log(map.keys());
+        console.log(map.values());
+        console.log(map.entries());
+
+      return {
+        next() {
+          var mapEntries = [...map.entries()]
+          if (index < map.size) {
+            return {
+              value: mapEntries[index++],
+              done: false
+            }
+          } else {
+            return {
+              value: undefined,
+              done: true
+            }
+          }
+
+        }
+      }
+      }
+    }
+
+    // 遍历和迭代有什么区别？
+    // ---> 迭代
+    // 从目标源  依次  逐个  抽取的方式来提取数据
+    // 目标源：1.有序（基于index索引）2.连续的 
+
+    // var iter = obj[Symbol.iterator]()
+    // console.log(iter.next());
+    // console.log(iter.next());
+    // console.log(iter.next());
+    // console.log(iter.next());
+
+    for(var i of obj) {
+      console.log(i);
+    }
+
+    
+
+  </script>
+</body>
+
+</html>
